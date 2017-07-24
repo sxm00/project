@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+  .code{
+   width:50px;
+  }
+  .captcha{
+  cursor:pointer;
+  }
+ 
+</style>
+</head>
+<body>
+<form action="login.php" method="post">
+	<input type="text" name="code">
+	<img src="captcha.php" class="captcha">
+	<a href="#" class="refreshBtn">点击刷新</a> <br>
+	<input type="submit" value="submit" name="send">
+</form>
+<!-- <img src="img.php"> -->
+</body>
+</html>
+
+<script>
+  var captcha=document.querySelector(".captcha");
+  var refreshBtn=document.querySelector(".refreshBtn");
+  
+  //console.log(captcha); //输出此图片
+  captcha.addEventListener("click",function(){//给图片添加事件监听（点击事件，函数运行）
+	  this.src="captcha.php?num="+Math.random();//图片的地址 ，每次点击在图片路径上面添加查询字符串
+	 // console.log(this.src);//输出你点击当前的元素
+  })
+//点击刷新验证码
+  refreshBtn.addEventListener("click",function(){//给点击刷新添加事件监听（点击事件，函数运行）
+	  captcha.src="captcha.php?num="+Math.random();//图片的地址 ，每次点击在图片路径上面添加查询字符串
+	 // console.log(captcha.src);//输出你点击当前的元素
+  })
+</script>

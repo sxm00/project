@@ -1,0 +1,20 @@
+<meta charset="utf8">
+<script src="uedtior/ueditor.config.js"></script>
+<script src="uedtior/ueditor.all.js"></script>
+<form action="buildin.php" method="post">
+   用户名：<input type="text" name="username"><br>
+  密码： <input type="password" name="pas"><br>
+   <input type="radio" name="sex" value="male">男
+   <input type="radio" name="sex" value="female">女<br>
+   <!-- <textarea name="comment"></textarea> <br> -->
+   <script id="comment" name="comment"></script> <!-- 替代textarea -->
+    <script id="ask" name="ask"></script> 
+   <script>
+   //根据id选择script，并渲染为一个富文本编辑器；
+   var ue=UE.getEditor("comment");
+   var ue=UE.getEditor("ask");
+   	console.log(UE);
+   </script>
+   <input type="file" name="pic"> <br>
+   <input type="submit" value="submit" name="send">
+</form>
