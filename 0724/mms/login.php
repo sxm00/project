@@ -25,12 +25,11 @@ if ($_POST['send']){
 	if ($oneUser[0]){
 		if ($_POST['oneweek']==1){
 			setcookie("username",$_POST['username'],time()+3600*24*7);
-			//跳转到首页
-			header("location:getAll.php?oneweek=1");
 		}else {
 			setcookie("username",$_POST['username']);
-			header("location:getAll.php?oneweek=0");
 		}
+		//跳转到首页
+		header("location:getAll.php");
 		//把用户对象保存在$_SESSION;
 		$_SESSION['admin']=$oneUser[0];
 	
