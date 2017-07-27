@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax</title>
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <style>
+        .loading{
+            width: 50px;
+            height: 50px;
+           font-size: 50px;
+            color: yellow;
+        }
+    </style>
+    <script>
+        document.write(new Date().toLocaleTimeString())
+    </script>
+</head>
+<body>
+<div class="demo"></div>
+<div class="member">
+    <ul>
+        <li class="membername"></li>
+        <li class="logout">注销</li>
+    </ul>
+</div>
+<div class="login">
+    <input type="text" class="username"> <br>
+    <input type="password" class="pwd"> <br>
+    <button class="btn">按钮</button>
+</div>
+
+<script>
+    var demo=document.querySelector(".demo");
+    var username=document.querySelector(".username");
+    var pwd=document.querySelector(".pwd");
+    var btn=document.querySelector(".btn");
+    var membername=document.querySelector(".membername");
+    var logout=document.querySelector(".logout");
+    var member=document.querySelector(".member");
+    var login=document.querySelector(".login");
+    var xhr=new XMLHttpRequest();//实例化一个对象
+    //判断sessionStorage是否有值
+    if (sessionStorage.getItem("username")){
+        membername.innerHTML=sessionStorage.getItem("username");
+        //会员消息界面显示
+        member.style.display="block";
+        //登录界面隐藏
+        login.style.display="none";
+    }else {
+        //会员消息界面显示
+        member.style.display="none";
+        //登录界面隐藏
+        login.style.display="block";
+    }
+    //点击注销
+   logout.addEventListener("click",function () {
+       sessionStorage.removeItem("username");
+       //会员消息界面小时
+       member.style.display="none";
+      // login.innerHTML="注销成功<a href='demo1.html'>如需再次登录，请点击</a>";
+       //登录界面隐藏
+       login.style.display="block";
+      username.value="";
+      pwd.value="";
+
+   })
+  btn.addEventListener("click",function () {
+      xhr.open('post',"datapost.php");//连接后台程序 第一个参数是方式 第二个是要链接的文件
+      demo.innerHTML="加载中。。。。";
+      //ajax是以表单的数据传递方式传值的；
+      xhr.setRequestHeader("content-Type","application/x-www-form-urlencoded");
+      xhr.send("username="+username.value+"&pwd="+pwd.value+"");
+      xhr.addEventListener("readystatechange",function () {
+          if (xhr.readyState==4){
+              if (xhr.status==200){
+                 // demo.innerHTML=xhr.responseText;
+                  //登录成功
+                  if (xhr.responseText=="ok"){
+                            demo.innerHTML="";
+                            membername.innerHTML=username.value;
+                            //用户保存在sessionStorage
+                            sessionStorage.setItem("username",username.value);
+                      //会员消息界面显示
+                      member.style.display="block";
+                      //登录界面隐藏
+                      login.style.display="none";
+                  }else if(xhr.responseText=="failed"){//登录失败
+                      demo.innerHTML="用户名或密码错误";
+                  }
+              }
+          }
+      })
+  })
+  /*//  console.log(xhr.readyState);//xhr.readyState状态属性，属性值为0；未连接上
+    xhr.open('get',"data.php?username=peter&pwd=123456");//连接后台程序 第一个参数是方式 第二个是要链接的文件
+    demo.innerHTML="<i class='fa fa-spin fa-spinner loading'></i>加载中。。。"
+    console.log(xhr.readyState);//xhr.readyState状态属性，属性值为1；已连接上文件
+    xhr.send(null);//向后台程序发送数据
+    console.log(xhr.readyState);
+    //绑定一个状态改变事件，readystatechange状态改变事件就会触发函数
+    xhr.addEventListener("readystatechange",function () {
+           // alert(xhr.readyState);
+       // alert(xhr.status);
+        if (xhr.readyState==4){
+            if (xhr.status==200){
+                demo.innerHTML=xhr.responseText;//获取后台的值赋值给div
+                console.log(xhr.responseText);//打印后台文本
+                console.log(typeof  xhr.responseText);//输出类型都是字符串
+            }
+        }
+    })
+ //   console.log(xhr);*/
+</script>
+</body>
+</html>

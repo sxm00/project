@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax</title>
+</head>
+<body>
+
+<script>
+    var xhr=new XMLHttpRequest();//实例化一个对象
+  //  console.log(xhr.readyState);//xhr.readyState状态属性，属性值为0；未连接上
+    xhr.open('post',"data.php");//连接后台程序 第一个参数是方式 第二个是要链接的文件
+    console.log(xhr.readyState);//xhr.readyState状态属性，属性值为1；已连接上文件
+    xhr.send(null);//向后台程序发送数据
+    console.log(xhr.readyState);
+    //绑定一个状态改变事件，readystatechange状态改变事件就会触发函数
+    xhr.addEventListener("readystatechange",function () {
+           // alert(xhr.readyState);
+       // alert(xhr.status);
+        if (xhr.readyState==4){
+            if (xhr.status==200){
+                console.log(xhr.responseText);//打印后台文本
+                console.log(typeof  xhr.responseText);//输出类型都是字符串
+            }
+        }
+    })
+ //   console.log(xhr);
+</script>
+</body>
+</html>

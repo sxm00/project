@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/Tools.js"></script>
+    <style>
+        .pic{
+            display: none;
+        }
+        .preview{
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="feedback"></div>
+<input type="text" class="username" placeholder="用户名"> <br>
+<input type="text" class="pwd" placeholder="密码由数字、大小写字母、特殊字符组成"> <br>
+<input type="text" class="repwd" placeholder="确认密码"> <br>
+<input type="email" class="email" placeholder="邮箱"> <br>
+<input type="file" class="pic" id="pic">
+<label for="pic">上传头像</label> <br>
+<img src="img/default.png" alt="" class="preview"> <br>
+<button class="regBtn">注册</button>
+<script>
+    var fd=new FormData();
+    var xhr=new XMLHttpRequest();
+    var regBtn=document.querySelector(".regBtn");
+    var username=document.querySelector(".username");
+    var pwd=document.querySelector(".pwd");
+    var repwd=document.querySelector(".repwd");
+    var email=document.querySelector(".email");
+    var pic=document.querySelector(".pic");
+    var feedback=document.querySelector(".feedback");
+    var preview=document.querySelector(".preview");
+    //上传图片预览
+    var fr=new FileReader();
+    pic.addEventListener("change",function () {
+        //判断图片格式
+        if (!/image\//.test(this.files[0].type)){
+            feedback.innerHTML="只能上传图片";
+            return false;
+        }
+        fr.readAsDataURL(this.files[0]);
+        fr.addEventListener("load",function () {
+            preview.src=this.result;
+            feedback.innerHTML="";
+        })
+    })
+    //确认密码禁止粘贴
+repwd.addEventListener("paste",function (evt) {
+    evt.preventDefault();
+    feedback.innerHTML="密码禁止paste";
+})
+
+    //用户名失去焦点验证
+    username.addEventListener("blur",function () {
+        //console.log(333);
+        xhr.open("post","reg.php");
+        fd.append("username",username.value);
+        fd.append("action","checkUserName");
+        xhr.send(fd);
+        xhr.addEventListener("readystatechange",function () {
+            if (xhr.readyState==4){
+                if (xhr.status==200){
+                    if (xhr.responseText=="taken"){
+                        feedback.innerHTML="用户名已存在，请重试！";
+                    }else {
+                        feedback.innerHTML="";
+                    }
+                }
+            }
+        })
+    })
+    //再次密码失去焦点
+    repwd.addEventListener("blur",function () {
+        //再次验证二次的密码是否一致
+        if (trim(pwd.value)!=trim(repwd.value)){
+            feedback.innerHTML="再次密码不一致";
+            return false;
+        }
+        feedback.innerHTML="";
+    })
+    //输入密码时验证
+    pwd.addEventListener("keyup",function () {
+       // console.log(validate_pwd(trim(pwd.value)));
+        switch (validate_pwd(trim(pwd.value))){
+            case 0:
+                feedback.innerHTML="密码强度高";
+               break;
+            case 1:
+                feedback.innerHTML="密码强度较高";
+                break;
+            case 2:
+                feedback.innerHTML="密码强度中";
+                break;
+            case 3:
+                feedback.innerHTML="密码强度低";
+                break;
+
+        }
+    })
+    //输入邮箱时验证
+    email.addEventListener("keyup",function () {
+      //  console.log(validate_email(trim(email.value)))
+      if(validate_email(trim(email.value))) {
+          feedback.innerHTML = "";
+      }else {
+          feedback.innerHTML="邮箱格式错误";
+          return false;
+         }
+    })
+    //点击注册按钮
+    regBtn.addEventListener("click",function () {
+        //用户名不能为空验证
+        if (trim(username.value).length==0){
+            feedback.innerHTML="用户名不得为空";
+            return false;
+        }
+        //密码验证
+        if (validate_pwd(pwd.value)){
+            feedback.innerHTML="密码强度不够";
+            return false;
+        }
+        //再次验证二次的密码是否一致
+        if (trim(pwd.value)!=trim(repwd.value)){
+            feedback.innerHTML="二次密码不一致";
+            return false;
+        }
+        //邮箱验证
+        if (!validate_email(email.value)){
+          feedback.innerHTML="邮箱格式错误";
+            return false;
+        }
+
+        xhr.open("post","reg.php");
+        fd.append("username",username.value);
+        fd.append("pwd",pwd.value);
+        fd.append("email",email.value);
+        fd.append("pic",pic.files[0]);
+        fd.append("action","reg");
+        xhr.send(fd);
+        xhr.addEventListener("readystatechange",function () {
+            if (xhr.readyState==4){
+                if (xhr.status==200){
+                     //  console.log(xhr.responseText);
+                    if (xhr.responseText=="ok"){
+                        feedback.innerHTML="注册成功";
+                        console.log(xhr.responseText);
+                    }else if (xhr.responseText=="failed"){
+                        feedback.innerHTML="注册失败";
+                    }else if (xhr.responseText=="taken"){
+                        feedback.innerHTML="用户名已存在，请重试！";
+                    }else {
+                        console.log(xhr.responseText);
+                    }
+                }
+            }
+        })
+    })
+
+</script>
+</body>
+</html>
