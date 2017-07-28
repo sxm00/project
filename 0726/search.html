@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/Tools.js"></script>
+    <style>
+        .search{
+            border: 1px solid green;
+            text-align: center;
+            padding-top: 150px;
+            padding-bottom: 150px;
+        }
+        .keyword{
+            width: 80%;
+            height: 35px;
+            border: 1px solid #dddddd;
+            font-size: 30px;
+        }
+        /*搜索结果列表*/
+        .searchList{
+            border:1px solid #dddddd;
+            height: 350px;
+            width: 80%;
+           margin: auto;
+            display: none;
+        }
+        ul li{
+            list-style: none;
+            text-align: left;
+            cursor: pointer;
+            width: 50%;
+        }
+        ul li:hover{
+            background: pink;
+        }
+    </style>
+
+
+</head>
+<body>
+<div class="search">
+    <input type="text" class="keyword">
+    <div class="searchList"></div>
+</div>
+<script>
+    var xhr=new XMLHttpRequest();
+    var fd=new FormData();
+    var keyword=document.querySelector(".keyword");
+    var searchList=document.querySelector(".searchList");
+    //被单击的元素的值赋给搜索框；
+    function pick(element) {
+        keyword.value=element.innerHTML;
+        searchList.style.display="none";
+
+    }
+    keyword.addEventListener("keyup",function () {
+       // console.log(trim(this.value).length);
+        //用户如果输入内容的话才出发ajax，输入空格不会触发ajax
+        if (trim(this.value).length!=0){
+            /////
+            xhr.open("post","search.php");
+            fd.append("action","search");
+            fd.append("keyword",trim(this.value));
+            xhr.send(fd);
+            xhr.addEventListener("readystatechange",function () {
+                if (xhr.readyState==4){
+                    if (xhr.status==200){
+                        //没有搜索结果
+                        if (xhr.responseText=="failed"){
+                            searchList.style.display="none";
+                        }else {
+                            //有搜索结果
+                            searchList.style.display="block";
+                            //转换为json对象
+                            let obj=JSON.parse(xhr.responseText);
+                            let str="<ul>";
+                            for (var i=0;i<obj.length;i++){
+                                str+="<li onclick='pick(this)'>"+obj[i].username+"</li>";
+                            }
+                                str+="</ul>";
+                          //  console.log(str);
+                            searchList.innerHTML=str;
+                        }
+
+                    }
+                }
+            })
+
+        }else {
+            //如果搜索框的内容为空时也消失
+            searchList.style.display="none";
+        }
+
+    })
+</script>
+</body>
+</html>
