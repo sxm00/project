@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分页</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        .tab{
+            border: 1px solid green;
+            margin: 150px;
+            padding: 15px;
+        }
+        .tab ul{
+            /*border: 1px solid blue;*/
+        }
+        /*清除子元素的浮动对父元素的影响*/
+        .tab ul:after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .tab ul li{
+            float: left;
+            width: 150px;
+            height:30px ;
+            border: 1px solid #369;
+            margin-right: 10px;
+
+        }
+        .tab ul li.active{
+            position: relative;
+            top: 4.5px;
+            background: #ffffff;
+            z-index: 5;
+            border-bottom: none;
+
+        }
+        .tab div{
+            border: 1px solid purple;
+            width: 475px;
+            height: 150px;
+            display: none;
+        }
+        .tab div.spotlight{
+            display: block;
+            position: relative;
+            top: 3px;
+            z-index: 4;
+            background: #ffffff;
+            border: 1px solid #369;
+        }
+        .tab ul li.active span{
+            display: block;
+            height: 4px;
+            background: red;
+            width: 0%;
+            margin:auto;
+            /*forwards:停留在最后一帧，backwords：停留在第一帧*/
+            animation: widthIn 2s ease-in-out forwards;
+        }
+
+        @keyframes widthIn {
+            0%{
+                width: 0%;
+            }
+            100%{
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="tab">
+    <ul>
+        <li class="active"><span></span></li>
+        <li><span></span></li>
+        <li><span></span></li>
+    </ul>
+    <div class="spotlight"></div>
+</div>
+<script>
+    /*
+    * let 声明局部变量*/
+    var lis=document.querySelectorAll(".tab li");
+    var divs=document.querySelectorAll(".tab div");
+   // console.log(lis);
+    for (let i=0;i<lis.length;i++){
+        lis[i].addEventListener("click",function () {
+            for (var j=0;j<lis.length;j++){
+                lis[j].className=lis[j].className.replace("active","");//1.清空lis的active类名
+                divs[j].className=divs[j].className.replace("spotlight","");//清空div的spotlight类名
+            }
+            this.className+="active";//2.为当前的lis添加类名
+            divs[i].className+="spotlight";//为当前的点击li 的下标div添加类名
+            switch (i){
+                case 0:
+                    Ajax(divs[0],"tab.php",i);
+                    break;
+                case 1:
+                    Ajax(divs[0],"tab.php",i);
+                    break;
+                case 2:
+                    Ajax(divs[0],"tab.php",i);
+                    break;
+            }
+        })
+    }
+    //封装ajax
+    function Ajax(feedback,url,num) {
+        var xhr=new XMLHttpRequest();
+        var fd=new FormData();
+        xhr.open("post",url);
+        fd.append("index",num);
+        xhr.send(fd);
+        xhr.addEventListener("readystatechange",function () {
+            if (xhr.readyState==4){
+                if (xhr.status==200){
+                    feedback.innerHTML=xhr.responseText;
+                }
+            }
+        })
+
+    }
+</script>
+</body>
+</html>

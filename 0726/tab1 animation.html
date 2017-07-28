@@ -31,6 +31,7 @@
             height:30px ;
             border: 1px solid #369;
             margin-right: 10px;
+
         }
         .tab ul li.active{
             position: relative;
@@ -38,6 +39,7 @@
             background: #ffffff;
             z-index: 5;
             border-bottom: none;
+
         }
         .tab div{
             border: 1px solid purple;
@@ -53,14 +55,32 @@
             background: #ffffff;
             border: 1px solid #369;
         }
+        .tab ul li.active span{
+            display: block;
+            height: 4px;
+            background: red;
+            width: 0%;
+            margin:auto;
+            /*forwards:停留在最后一帧，backwords：停留在第一帧*/
+            animation: widthIn 2s ease-in-out forwards;
+        }
+
+        @keyframes widthIn {
+            0%{
+                width: 0%;
+            }
+            100%{
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 <div class="tab">
     <ul>
-        <li class="active"></li>
-        <li></li>
-        <li></li>
+        <li class="active"><span></span></li>
+        <li><span></span></li>
+        <li><span></span></li>
     </ul>
     <div class="spotlight">1</div>
     <div>2</div>
@@ -70,19 +90,17 @@
     var lis=document.querySelectorAll(".tab li");
     var divs=document.querySelectorAll(".tab div");
    // console.log(lis);
-    for (var i=0;i<lis.length;i++){
-//        console.log(lis[i]);
-        lis[i].setAttribute("index",i);//为每一个元素添加属性index;
-        //循环每个li并绑定事件
+    for (let i=0;i<lis.length;i++){
         lis[i].addEventListener("click",function () {
             for (var j=0;j<lis.length;j++){
-                lis[j].className="";//1.清空所有lis的类名
-                divs[j].className="";//清空所有div的类名
+                lis[j].className=lis[j].className.replace("active","");//1.清空lis的active类名
+                divs[j].className=divs[j].className.replace("spotlight","");//清空div的spotlight类名
             }
-            this.className="active";//2.为当前的lis添加类名
-            divs[this.getAttribute("index")].className="spotlight";//为当前的点击li 的下标div添加类名
-        });
+            this.className+="active";//2.为当前的lis添加类名
+            divs[i].className+="spotlight";//为当前的点击li 的下标div添加类名
+        })
     }
+
 </script>
 </body>
 </html>

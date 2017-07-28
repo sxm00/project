@@ -68,25 +68,22 @@
 </div>
 <script>
     /*
-    * 匿名函数的自触发传值
-    *
-    * */
+    * 元素的自定义属性传值*/
     var lis=document.querySelectorAll(".tab li");
     var divs=document.querySelectorAll(".tab div");
    // console.log(lis);
     for (var i=0;i<lis.length;i++){
-        //匿名函数传值
-        (function (Index) {
-            //循环每个li并绑定事件
-            lis[Index].addEventListener("click",function () {
-                for (var j=0;j<lis.length;j++){
-                    lis[j].className="";//1.清空所有lis的类名
-                    divs[j].className="";//清空所有div的类名
-                }
-                this.className="active";//2.为当前的lis添加类名
-                divs[Index].className="spotlight";//为当前的点击li 的下标div添加类名
-            });
-        })(i);//把i值传进函数里面
+//        console.log(lis[i]);
+        lis[i].setAttribute("index",i);//为每一个元素添加属性index;
+        //循环每个li并绑定事件
+        lis[i].addEventListener("click",function () {
+            for (var j=0;j<lis.length;j++){
+                lis[j].className="";//1.清空所有lis的类名
+                divs[j].className="";//清空所有div的类名
+            }
+            this.className="active";//2.为当前的lis添加类名
+            divs[this.getAttribute("index")].className="spotlight";//为当前的点击li 的下标div添加类名
+        });
     }
 </script>
 </body>
