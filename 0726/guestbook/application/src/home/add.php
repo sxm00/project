@@ -115,7 +115,7 @@ if ($_POST['send']){
                     $("#tip1").css("display","none");
                     b_u=true;
                 }else {
-                     $("#tip1").html("字母、数字组成，字母开头，2-16位。");
+                     $("#tip1").html("字母组成，2-16位。");
                     $("#tip1").css("display","block");
                 }
             }
