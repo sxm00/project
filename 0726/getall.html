@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <style>
+        body{
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="feedback"></div>
+<div class="page"></div>
+</body>
+</html>
+<script>
+    var xhr=new XMLHttpRequest();
+    var fd=new FormData();
+  var feedback=document.querySelector(".feedback");
+  var page=document.querySelector(".page");
+    setPage("getall.php?page=3");
+  function setPage(url) {
+      xhr.open("get",url);
+      xhr.send(null);
+      xhr.addEventListener("readystatechange",function () {
+          if (xhr.readyState==4){
+              if (xhr.status==200){
+                  //str:数组类型，第一个元素是所有的数据，第二个元素是分页信息；
+                  //所有的数据又是一个数组
+                  let str=JSON.parse(xhr.responseText);
+                  let resultStr="<table class='table table-bordered table-striped'>";
+                  for(let i=0;i<str[0].length;i++){
+                      resultStr+="<tr><td>"+str[0][i].username+"</td>" +
+                          "<td>"+str[0][i].email+"</td>" +
+                          "<td>"+str[0][i].regTime+"</td>" +
+                          "<td>"+str[0][i].pic+"</td></tr>";
+                  }
+                  resultStr+="</table>";
+                  console.log(str[0]);
+                  console.log(str[1]);
+                  feedback.innerHTML=resultStr;
+                  page.innerHTML=str[1];
+              }
+          }
+      })
+  }
+
+
+
+</script>

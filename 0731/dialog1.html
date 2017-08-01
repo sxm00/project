@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        dialog{
+            border: 1px solid rgba(0,0,0,.3);
+            border-radius: 6px;
+            box-shadow: 0 3px 7px rgba(0,0,0,3);
+            width: 300px;
+        }
+        dialog::backdrop{
+            background: rgba(67, 255, 239, 0.8);
+        }
+       
+    </style>
+</head>
+<body>
+<dialog>
+    <form action="" method="dialog">
+        <h1>确定要删除图片吗？</h1>
+        <br>
+        <button type="submit" value="ok" class="ok">确定</button>
+        <button type="submit" value="failed" class="failed">取消</button>
+    </form>
+</dialog>
+<button class="btn">打开dialog</button>
+<img src="img/default.png" height="200" width="200" class="ad"/>
+<script>
+//    alert("确定要删除吗？")
+    var dialog=document.querySelector("dialog");
+    var failed=document.querySelector(".failed");
+    var btn=document.querySelector(".btn");
+    var ok=document.querySelector(".ok");
+    var ad=document.querySelector(".ad");
+btn.addEventListener("click",function () {
+    dialog.showModal();
+})
+
+/*dialog的事件*/
+//关闭事件
+    dialog.addEventListener("close",function () {
+       //console.dir(this.returnValue)
+        if (this.returnValue=="ok"){
+            ad.style.display="none"
+        }
+    })
+//取消事件
+dialog.addEventListener("cancel",function () {
+    //alert(userInput.value)
+})
+</script>
+</body>
+</html>

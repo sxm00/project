@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css">
+    <style>
+        .container{
+            margin: 20px;
+        }
+        .img-thumbnail{
+            width: 120px;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="result"></div>
+    <div class="page"></div>
+</div>
+<script>
+    var result=document.querySelector(".result");
+    var page=document.querySelector(".page");
+	var xhr=new XMLHttpRequest();
+ //console.log(xhr);
+    xhr.open("get","application/src/home/article.php");
+    xhr.send(null);
+    xhr.addEventListener("readystatechange",function () {
+        if (xhr.readyState==4){
+            if (xhr.status==200){
+                let arr=JSON.parse(xhr.responseText);
+                let resultStr="<table class='table table-bordered table-striped'>";
+                resultStr+="<tr><td>添加时间</td>" +
+                    "<td>标题</td>" +
+                    "<td>作者</td>" +
+                    "<td>来源</td>" +
+                    "<td>添加时间</td></tr>";
+                for (let i=0;i<arr.length;i++){
+                    resultStr+="<tr><td><img src='public/uploads/article/"+arr[i].thumbnail+"' class='img-thumbnail'></td>" +
+                        "<td>"+arr[i].title+"</td>" +
+                        "<td>"+arr[i].author+"</td>" +
+                        "<td>"+arr[i].source+"</td>" +
+                        "<td>"+arr[i].addedTime+"</td></tr>";
+                }
+                 resultStr+="</table>";
+                result.innerHTML=resultStr;
+                console.log(arr);
+            }
+        }
+    })
+
+</script>
+
+</body>
+</html>

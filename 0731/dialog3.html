@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        dialog{
+            border: 1px solid rgba(0,0,0,.3);
+            border-radius: 6px;
+            box-shadow: 0 3px 7px rgba(0,0,0,3);
+            width: 300px;
+        }
+        .close{
+            cursor: pointer;
+           float: right;
+        }
+    </style>
+</head>
+<body>
+<dialog>
+    <span class="close">&times;</span>
+    <p>夏日南西亭</p>
+</dialog>
+<button class="btn">打开dialog</button>
+<script>
+//    alert("确定要删除吗？")
+    var dialog=document.querySelector("dialog");
+    var close=document.querySelector(".close");
+    var btn=document.querySelector(".btn");
+btn.addEventListener("click",function () {
+    dialog.show();
+})
+    close.addEventListener("click",function () {
+        dialog.close();
+    })
+</script>
+</body>
+</html>

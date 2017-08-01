@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .progressBar{
+            height: 15px;
+            background: rgba(62, 255, 216, 0.8);
+            transition: width 2s;
+            width: 0;
+        }
+    </style>
+</head>
+<body>
+<input type="file" class="upload">
+<div class="progressBar"></div>
+<div class="currentValue"></div>
+<script>
+    var fr=new FileReader();
+    var upload=document.querySelector(".upload");
+    var progressBar=document.querySelector(".progressBar");
+    var currentValue=document.querySelector(".currentValue");
+    upload.addEventListener("change",function () {
+        fr.readAsBinaryString(this.files[0]);
+        //进度条事件
+        fr.addEventListener("progress",function (evt) {
+//            console.log(evt.lengthComputable);//evt.lengthComputable是否有可计算的长度
+            if(evt.lengthComputable){
+                var percent=Math.round((evt.loaded/evt.total)*100);//Math.round四舍五入；evt.loaded已加载的数据；evt.total总数据
+              //  console.log(percent)
+                if (percent<=100){
+//                    console.log(percent)
+                    progressBar.style.width=percent+"%";
+                    currentValue.innerHTML=percent+"%";
+                }
+            }
+        })
+        //加载成功事件
+        fr.addEventListener("load",function () {
+//            console.log(this.result);
+            console.log("success");
+        })
+    })
+</script>
+</body>
+</html>

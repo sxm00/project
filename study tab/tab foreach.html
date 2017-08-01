@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        .tab{
+            border: 1px solid green;
+            margin: 150px;
+            padding: 15px;
+        }
+        .tab ul{
+            /*border: 1px solid blue;*/
+        }
+        /*清除子元素的浮动对父元素的影响*/
+        .tab ul:after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .tab ul li{
+            float: left;
+            width: 150px;
+            height:30px ;
+            border: 1px solid #369;
+            margin-right: 10px;
+        }
+        .tab ul li.active{
+            position: relative;
+            top: 4.5px;
+            background: #ffffff;
+            z-index: 5;
+            border-bottom: none;
+        }
+        .tab div{
+            border: 1px solid purple;
+            width: 475px;
+            height: 150px;
+            display: none;
+        }
+        .tab div.spotlight{
+            display: block;
+            position: relative;
+            top: 3px;
+            z-index: 4;
+            background: #ffffff;
+            border: 1px solid #369;
+        }
+        .tab ul li.active span{
+            display: block;
+            height: 4px;
+            background: red;
+            width: 0%;
+            margin: auto;
+            animation: widthIn 2s ease-in-out forwards;
+        }
+        @keyframes widthIn {
+            0%{
+                width: 0%;
+            }
+            100%{
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="tab">
+    <ul>
+        <li class="active"><span></span></li>
+        <li><span></span></li>
+        <li><span></span></li>
+    </ul>
+    <div class="spotlight">1</div>
+    <div>2</div>
+    <div>3</div>
+</div>
+</body>
+</html>
+<script>
+    var lis=document.querySelectorAll(".tab li");
+    var divs=document.querySelectorAll(".tab div");
+    lis.forEach(function (value,index) {
+        value.addEventListener("click",function () {
+            for (var j=0;j<lis.length;j++){
+                lis[j].className=lis[j].className.replace("active","");
+                divs[j].className=divs[j].className.replace("spotlight","");
+            }
+            value.className+="active";
+            divs[index].className+="spotlight";
+        })
+    })
+</script>

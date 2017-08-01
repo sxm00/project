@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        dialog{
+            border: 1px solid rgba(0,0,0,.3);
+            border-radius: 6px;
+            box-shadow: 0 3px 7px rgba(0,0,0,3);
+            width: 300px;
+        }
+        dialog::backdrop{
+            background: rgba(67, 255, 239, 0.8);
+        }
+        .close{
+            cursor: pointer;
+           float: right;
+        }
+    </style>
+</head>
+<body>
+<dialog>
+    <span class="close">&times;</span>
+    <input type="text" class="userInput">
+    <p>夏日南西亭</p>
+</dialog>
+<button class="btn">打开dialog</button>
+<script>
+//    alert("确定要删除吗？")
+    var dialog=document.querySelector("dialog");
+    var close=document.querySelector(".close");
+    var btn=document.querySelector(".btn");
+    var userInput=document.querySelector(".userInput");
+btn.addEventListener("click",function () {
+    dialog.showModal();
+})
+    close.addEventListener("click",function () {
+       // alert(userInput.value)
+        dialog.close();
+    })
+/*dialog的事件*/
+//关闭事件
+    dialog.addEventListener("close",function () {
+       // alert(userInput.value)
+    })
+//取消事件
+dialog.addEventListener("cancel",function () {
+    alert(userInput.value)
+})
+</script>
+</body>
+</html>

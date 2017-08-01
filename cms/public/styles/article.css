@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+
+.addArticle{
+	border:1px solid green;
+	width:85%;
+	margin:auto;
+}

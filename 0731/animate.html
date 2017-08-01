@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .demo{
+            width: 50px;
+            height: 50px;
+            border: 1px solid green;
+            margin: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="demo"></div>
+<script>
+    var demo=document.querySelector(".demo");
+    //相当于关键帧
+    var frames=[
+        {transform:'rotate(0deg) translate(80px)'},
+        {transform:'rotate(360deg) translate(80px)'}
+    ];
+    var timing={
+        duration:2500,//时间
+        delay:0,//延迟
+        iterations:Infinity,//无限循环
+        direction:'alternate',//运动模式：alternate方向匀速 normal
+        easing:'ease-in-out',//linear线性
+        fill:"forwards"//forwards停留在最后一帧 backwards停留在第一帧
+    }
+    demo.animate(frames,timing);
+
+  /*  document.querySelector("body").animate([
+        {"background":"red"},
+        {"background":"green"},
+        {"background":"blue"}
+    ],13000);*/
+</script>
+</body>
+</html>

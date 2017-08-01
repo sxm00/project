@@ -34,6 +34,12 @@
         ul li:hover{
             background: pink;
         }
+        .searchResult{
+            /*border: 1px solid red;*/
+            width:83%;
+            margin: 20px auto;
+            display: none;
+        }
     </style>
 
 
@@ -41,18 +47,51 @@
 <body>
 <div class="search">
     <input type="text" class="keyword">
+    <button class="searchBtn">搜索</button>
     <div class="searchList"></div>
+    <div class="searchResult"></div>
 </div>
 <script>
     var xhr=new XMLHttpRequest();
     var fd=new FormData();
     var keyword=document.querySelector(".keyword");
     var searchList=document.querySelector(".searchList");
+    var searchResult=document.querySelector(".searchResult");
+    var searchBtn=document.querySelector(".searchBtn");
+    //单击搜索按钮
+    searchBtn.addEventListener("click",function () {
+        //alert(keyword.value)
+        xhr.open("post","search.php");
+        fd.append("action","getResult");
+        fd.append("keyword",trim(keyword.value));
+        xhr.send(fd);
+        xhr.addEventListener("readystatechange",function () {
+            if (xhr.readyState==4){
+                if (xhr.status==200){
+                    //把返回的字符串转换为对象组成的数组
+                    let oneUser=JSON.parse(xhr.responseText);
+//                console.log(xhr.responseText);
+                    let resultStr="<table border='1' width='100%' align='center'>";
+                    resultStr+="<tr><td>"+oneUser[0].username+"</td>" +
+                        "<td>"+oneUser[0].email+"</td>" +
+                        "<td>"+oneUser[0].regTime+"</td>" +
+                        "<td>"+oneUser[0].pic+"</td></tr>"
+                     resultStr+="<table>";
+                 //   console.log(resultStr);
+                    searchResult.innerHTML=resultStr;
+                    searchList.style.display="none";
+                    searchResult.style.display="block";
+                }
+            }
+        })
+    })
     //被单击的元素的值赋给搜索框；
     function pick(element) {
         keyword.value=element.innerHTML;
         searchList.style.display="none";
-
+        //也触发搜索按钮
+        searchBtn.click();
+        searchResult.style.display="block";
     }
     keyword.addEventListener("keyup",function () {
        // console.log(trim(this.value).length);
@@ -81,6 +120,7 @@
                                 str+="</ul>";
                           //  console.log(str);
                             searchList.innerHTML=str;
+                          //  searchResult.innerHTML=str;
                         }
 
                     }

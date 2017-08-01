@@ -94,10 +94,10 @@
         lis[i].addEventListener("click",function () {
             for (var j=0;j<lis.length;j++){
                 lis[j].className=lis[j].className.replace("active","");//1.清空lis的active类名
-                divs[j].className=divs[j].className.replace("spotlight","");//清空div的spotlight类名
+               // divs[j].className=divs[j].className.replace("spotlight","");//清空div的spotlight类名
             }
             this.className+="active";//2.为当前的lis添加类名
-            divs[i].className+="spotlight";//为当前的点击li 的下标div添加类名
+          //  divs[i].className+="spotlight";//为当前的点击li 的下标div添加类名
             switch (i){
                 case 0:
                     Ajax(divs[0],"tab.php",i);
@@ -121,7 +121,7 @@
         xhr.addEventListener("readystatechange",function () {
             if (xhr.readyState==4){
                 if (xhr.status==200){
-                    feedback.innerHTML=xhr.responseText;
+                 // feedback.innerHTML=xhr.responseText;
                 }
             }
         })

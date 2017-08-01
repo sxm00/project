@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>sg</h1>
+<script>
+   /* var Msg=data=>data;//函数名=参数=>函数体
+    console.log(Msg("demo"));*/
+
+  /* var Msg=data=>{//函数名=>函数{ 内容}； msg();
+       alert(33);
+   }
+   Msg();*/
+/*  var Msg=()=>{//没有参数
+      alert("没有参数")
+   }
+   Msg();*/
+/*var Msg=(num1,num2)=>(num1+num2);//多个参数
+console.log(Msg(5,6));*/
+/*//箭头函数的自触发
+   (()=>{
+       alert('匿名函数');
+   })();*/
+/*document.querySelector("body").addEventListener("click",()=>{
+    console.log(this);//输出的是window
+})*/
+   document.querySelector("body").addEventListener("click",function(){
+       console.log(this);//输出的是body
+   })
+</script>
+</body>
+</html>
